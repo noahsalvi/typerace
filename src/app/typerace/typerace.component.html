@@ -29,3 +29,18 @@
     </defs>
   </svg>
 </header>
+<router-outlet></router-outlet>
+<footer *ngIf="stage == 'game'" class="game-footer">
+  <div class="current-wpm">
+    Current Wpm&nbsp;<span class="pink">67{{ wpm }}</span>
+  </div>
+  <div class="press-enter">
+    Press <span class="pink">Enter</span> to restart
+  </div>
+</footer>
+<footer *ngIf="stage == 'result'" class="result-footer">
+  result
+</footer>
+<footer *ngIf="stage == 'scoreboard'" class="scoreboard-footer">
+  scoreboard
+</footer>

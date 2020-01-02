@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { GameService } from "../game.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-landing",
@@ -6,11 +8,19 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./landing.component.scss"]
 })
 export class LandingComponent implements OnInit {
-  constructor() {}
+  playerName = "";
+  constructor(private gameService: GameService, private router: Router) {}
 
   ngOnInit() {}
 
   scrollToBottom() {
     window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  submitName() {
+    if (this.playerName != "") {
+      this.gameService.setName(this.playerName);
+      this.router.navigate(["race"], { skipLocationChange: true });
+    }
   }
 }

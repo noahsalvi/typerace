@@ -36,7 +36,10 @@
       name="username"
       id="input-name"
       placeholder="Name"
+      [(ngModel)]="playerName"
+      (keyup.enter)="submitName()"
       required
+      autofocus
     />
     <svg
       id="enter-key"
@@ -62,6 +65,9 @@
   </div>
   <p class="instruction">
     Write your name and press enter to test your typing speed!
+    <span class="time-icon">
+      <img src="assets/time.svg" alt="time" />
+    </span>
   </p>
   <svg
     id="triangle-down"
