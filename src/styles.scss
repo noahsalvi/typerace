@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Baloo+Bhai|Lobster&display=swap");
+@import "variables.scss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Baloo Bhai", sans-serif;
+  color: white;
+}
+
+body {
+  background-color: $background;
+}

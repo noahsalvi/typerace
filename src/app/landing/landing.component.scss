@@ -1,0 +1,54 @@
+@import "src/variables.scss";
+main {
+  height: 100vh;
+
+  #logo {
+    margin: 10% auto 0 auto;
+    width: 100%;
+    transition: transform 0.2s;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .input-container {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    #input-name {
+      outline: none;
+      height: 70px;
+      width: 280px;
+      background: #cfd8dc;
+      border-radius: 15px;
+      border: 9px solid #90a4ae;
+      font-size: 35px;
+      box-shadow: 0 0 4px 3px black;
+      padding: 5px 0 5px 10px;
+
+      &:focus {
+        box-shadow: 0 0 4px 3px black;
+      }
+    }
+    #enter-key {
+      margin-left: 20px;
+    }
+  }
+}
+
+footer {
+  .rounding {
+    width: 100%;
+    height: 40px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+
+    background: $background;
+  }
+  height: 30vh;
+  background: black;
+}
