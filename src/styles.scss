@@ -8,6 +8,9 @@
   font-family: "Baloo Bhai", sans-serif;
   color: white;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background-color: $background;

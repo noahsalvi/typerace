@@ -2,9 +2,14 @@
 main {
   height: 100vh;
 
-  #logo {
-    margin: 10% auto 0 auto;
+  header {
+    display: flex;
+    justify-content: center;
     width: 100%;
+  }
+  #logo {
+    margin-top: 100px;
+    max-width: 95%;
     transition: transform 0.2s;
     cursor: pointer;
     outline: none;
@@ -27,20 +32,50 @@ main {
       border-radius: 15px;
       border: 9px solid #90a4ae;
       font-size: 35px;
-      box-shadow: 0 0 4px 3px black;
       padding: 5px 0 5px 10px;
 
-      &:focus {
-        box-shadow: 0 0 4px 3px black;
+      &:invalid ~ #enter-key {
+        filter: brightness(0.5);
+      }
+      &:valid ~ #enter-key {
+        filter: brightness(1);
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.04);
+        }
       }
     }
     #enter-key {
       margin-left: 20px;
     }
   }
+  .instruction {
+    font-size: 25px;
+    width: 400px;
+    margin: 80px auto 0 auto;
+    text-align: center;
+  }
+
+  @keyframes hover {
+    50% {
+      bottom: 55px;
+    }
+  }
+  #triangle-down {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    cursor: pointer;
+    animation: hover 1s infinite;
+
+    transform: translateX(-50%);
+  }
 }
 
 footer {
+  height: 30vh;
+  background: black;
   .rounding {
     width: 100%;
     height: 40px;
@@ -49,6 +84,43 @@ footer {
 
     background: $background;
   }
-  height: 30vh;
-  background: black;
+
+  .content {
+    height: calc(100% - 40px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .profile-picture {
+      border-radius: 150px;
+      border: 8px solid white;
+    }
+
+    .text-container {
+      margin-left: 30px;
+      .creator {
+        font-family: "Lobster", serif;
+        font-size: 45px;
+        color: $pink;
+      }
+
+      .name {
+        font-size: 36px;
+      }
+
+      .line {
+        width: 315px;
+        height: 7px;
+        background: white;
+        border-radius: 8px;
+      }
+
+      .contact-me {
+        color: $gray;
+        font-size: 30px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+  }
 }
