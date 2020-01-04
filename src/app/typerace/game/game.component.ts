@@ -24,8 +24,9 @@ export class GameComponent implements OnInit {
   expectedChars: string[];
   userInput: string = "";
   countdown;
-  counter = 60;
+  counter = 5;
   charsTotal = 0;
+  isFinished = false;
 
   constructor(private gameService: GameService, private http: HttpClient) {
     gameService.stage.next("game");
@@ -38,7 +39,11 @@ export class GameComponent implements OnInit {
       if (event.key == "Backspace") {
         document.getElementById("focusCatcher").focus();
 
-        if (this.userInput.length > 0 && !isBackspacePressed) {
+        if (
+          this.userInput.length > 0 &&
+          !isBackspacePressed &&
+          !this.isFinished
+        ) {
           isBackspacePressed = true;
           this.userInput = this.userInput.slice(0, this.userInput.length - 1);
           if (
@@ -60,15 +65,19 @@ export class GameComponent implements OnInit {
     });
 
     document.addEventListener("keypress", event => {
-      if (event.key == " ") {
+      if (event.key == " " && this.userInput != "" && !this.isFinished) {
         if (this.userInput == this.expectedChars.join("")) {
-          this.charsTotal += this.userInput.length;
-
-          this.shiftWords();
+          this.charsTotal += this.userInput.length + 1;
+        } else {
+          this.gameService.wrongWords.next(
+            this.gameService.wrongWords.value + 1
+          );
         }
+
+        this.shiftWords();
       } else if (event.key != "Enter" && event.key != "Backspace") {
         this.userInput += event.key;
-        this.updateChars();
+        if (!this.isFinished) this.updateChars();
         this.startCountdown();
       }
     });
@@ -97,12 +106,10 @@ export class GameComponent implements OnInit {
 
     if (this.userInput.length > this.expectedChars.length) {
       let startIndex = this.expectedChars.length;
-      console.log(this.expectedChars.length);
       let excessChars: string[] = this.userInput.slice(startIndex).split("");
 
       excessChars.forEach((char, index) => {
         if (!wordElement.children.item(startIndex + index)) {
-          console.log(char);
           let node = document.createElement("span");
           node.innerText = char;
           node.className = "excess";
@@ -161,7 +168,6 @@ export class GameComponent implements OnInit {
     let randomNumber = Math.floor(Math.random() * this.words.length);
     nextPreviews[nextPreviews.length - 1] = this.words[randomNumber];
     this.previews.next(nextPreviews);
-    console.log(this.previews.value);
   }
 
   toggleCursor(bool: boolean) {
@@ -176,19 +182,35 @@ export class GameComponent implements OnInit {
 
   startCountdown() {
     if (!isDefined(this.countdown)) {
-      this.counter--;
       this.countdown = setInterval(() => {
         this.counter--;
-        console.log(this.counter);
-        console.log(this.charsTotal);
         this.gameService.wpm.next(
           Math.floor(this.charsTotal / 5 / ((60 - this.counter) / 60))
         );
         if (this.counter <= 0) {
           clearInterval(this.countdown);
+          this.isFinished = true;
+          this.getRemainingChars();
           console.log(this.charsTotal / 5, " wpm");
-        }
+        } else if (this.counter == 5)
+          document.getElementById("counter").classList.add("blinking");
       }, 1000);
     }
+  }
+
+  getRemainingChars() {
+    let correctChars = 0;
+    let hasMistake = false;
+    this.userInput.split("").forEach((char, index) => {
+      if (char == this.expectedChars[index]) {
+        correctChars++;
+      } else {
+        hasMistake = true;
+      }
+    });
+    if (!hasMistake) this.charsTotal += correctChars;
+    this.gameService.wpm.next(
+      Math.floor(this.charsTotal / 5 / ((60 - this.counter) / 60))
+    );
   }
 }

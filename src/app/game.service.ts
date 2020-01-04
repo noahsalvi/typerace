@@ -9,6 +9,8 @@ export type stages = "game" | "result" | "scoreboard";
 export class GameService {
   stage: BehaviorSubject<stages> = new BehaviorSubject<stages>(null);
   wpm: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  wrongWords: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
   constructor() {}
 
   getName() {
