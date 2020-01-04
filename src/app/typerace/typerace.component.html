@@ -32,7 +32,7 @@
 <router-outlet></router-outlet>
 <footer *ngIf="stage == 'game'" class="game-footer">
   <div class="current-wpm">
-    Current Wpm&nbsp;<span class="pink">67{{ wpm }}</span>
+    Current Wpm&nbsp;<span class="pink">{{ gameService.wpm | async }}</span>
   </div>
   <div class="press-enter">
     Press <span class="pink">Enter</span> to restart

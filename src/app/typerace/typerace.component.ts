@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { GameService } from "../game.service";
+import { GameService, stages } from "../game.service";
 
 @Component({
   selector: "app-typerace",
@@ -7,7 +7,8 @@ import { GameService } from "../game.service";
   styleUrls: ["./typerace.component.scss"]
 })
 export class TyperaceComponent implements OnInit {
-  stage;
+  stage: stages;
+
   constructor(private gameService: GameService) {
     gameService.stage.subscribe(stage => (this.stage = stage));
   }

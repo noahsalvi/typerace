@@ -7,10 +7,9 @@ export type stages = "game" | "result" | "scoreboard";
   providedIn: "root"
 })
 export class GameService {
-  stage: BehaviorSubject<stages> = new BehaviorSubject<stages>("game");
-  constructor() {
-    setInterval(() => console.log(this.getName()), 1000);
-  }
+  stage: BehaviorSubject<stages> = new BehaviorSubject<stages>(null);
+  wpm: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  constructor() {}
 
   getName() {
     return sessionStorage.getItem("name");

@@ -1,1 +1,15 @@
-game
+<section>
+  <div *ngIf="previews | async as p" class="previews">
+    <div class="gradient"></div>
+    <div id="preview-1">{{ viewPreviews[0] }}<br /></div>
+    <div id="preview-2">{{ viewPreviews[1] }}<br /></div>
+    <div id="preview-3">{{ viewPreviews[2] }}<br /></div>
+    <div id="preview-4">{{ viewPreviews[3] }}<br /></div>
+    <div id="preview-5">{{ viewPreviews[4] }}<br /></div>
+  </div>
+  <div id="word" (click)="toggleCursor(false)"><br /></div>
+  <input type="text" id="focusCatcher" readonly autofocus />
+
+  <div class="line"></div>
+  <div id="counter">{{ counter | minuteSeconds }}s</div>
+</section>

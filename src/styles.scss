@@ -15,3 +15,14 @@ html {
 body {
   background-color: $background;
 }
+
+//Placed here because they would be ignored by Dom manipulation if placed in game.component.scss
+.preview {
+  color: darkgray;
+}
+.wrong {
+  color: red;
+}
+.excess {
+  color: orange;
+}

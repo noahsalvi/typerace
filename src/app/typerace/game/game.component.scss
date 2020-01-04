@@ -1,0 +1,87 @@
+@import "src/variables.scss";
+.test {
+  color: black;
+  height: 500px;
+  width: 300px;
+}
+section {
+  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  #counter {
+    color: $darkerPink;
+    font-size: 35px;
+  }
+
+  .line {
+    width: 200px;
+    height: 6px;
+    border-radius: 8px;
+    background: $pink;
+  }
+
+  #word {
+    font-size: 50px;
+    user-select: none;
+    cursor: text;
+    position: relative;
+
+    .preview {
+      color: darkgray;
+    }
+    .wrong {
+      color: red;
+    }
+  }
+
+  #focusCatcher {
+    position: absolute;
+    background: none;
+    border: none;
+    user-select: none;
+    cursor: default;
+  }
+
+  .previews {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    user-select: none;
+
+    .gradient {
+      background: linear-gradient(
+        180deg,
+        #272627 0%,
+        rgba(39, 38, 39, 0.557292) 22.17%,
+        rgba(39, 38, 39, 0) 103.82%
+      );
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+  }
+
+  #preview-1 {
+    font-size: 45px;
+  }
+
+  #preview-2 {
+    font-size: 40px;
+  }
+
+  #preview-3 {
+    font-size: 30px;
+  }
+
+  #preview-4 {
+    font-size: 25px;
+  }
+
+  #preview-5 {
+    font-size: 20px;
+  }
+}
