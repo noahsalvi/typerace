@@ -7,11 +7,14 @@ export type stages = "game" | "result" | "scoreboard";
   providedIn: "root"
 })
 export class GameService {
-  stage: BehaviorSubject<stages> = new BehaviorSubject<stages>(null);
-  wpm: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  wrongWords: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  stage: BehaviorSubject<stages>;
+  wpm: BehaviorSubject<number>;
+  wrongWords: BehaviorSubject<number>;
+  mistakes: BehaviorSubject<number>;
 
-  constructor() {}
+  constructor() {
+    this.resetGame();
+  }
 
   getName() {
     return sessionStorage.getItem("name");
@@ -19,5 +22,12 @@ export class GameService {
 
   setName(name: string) {
     sessionStorage.setItem("name", name);
+  }
+
+  resetGame() {
+    this.stage = new BehaviorSubject<stages>("game");
+    this.wpm = new BehaviorSubject<number>(0);
+
+    this.wrongWords = new BehaviorSubject<number>(0);
   }
 }

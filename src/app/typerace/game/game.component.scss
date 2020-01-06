@@ -20,19 +20,63 @@ section {
     height: 6px;
     border-radius: 8px;
     background: $pink;
-  }
-
-  #word {
-    font-size: 50px;
-    user-select: none;
-    cursor: text;
     position: relative;
 
-    .preview {
-      color: darkgray;
-    }
-    .wrong {
+    #mistakes {
+      font-size: 20px;
+      top: -12px;
+      position: absolute;
+      left: 220px;
       color: red;
+
+      //   animation: attention 0.5s;
+      @keyframes attention {
+        50% {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .word-row {
+    position: relative;
+    margin: auto;
+    #start-here {
+      position: absolute;
+      left: -140px;
+      top: 5px;
+      @keyframes fade-out {
+        0% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        50% {
+          opacity: 0.5;
+          transform: translateX(-20px);
+        }
+        100% {
+          display: none;
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+      }
+    }
+
+    #word {
+      font-size: 50px;
+      line-height: 50px;
+      padding-top: 10px;
+      padding-bottom: 12px;
+      user-select: none;
+      cursor: text;
+      position: relative;
+
+      .preview {
+        color: darkgray;
+      }
+      .wrong {
+        color: red;
+      }
     }
   }
 
@@ -56,9 +100,9 @@ section {
     .gradient {
       background: linear-gradient(
         180deg,
-        #272627 0%,
-        rgba(39, 38, 39, 0.557292) 22.17%,
-        rgba(39, 38, 39, 0) 103.82%
+        $background 0%,
+        rgba($background, 0.8) 22.17%,
+        rgba($background, 0.4) 100%
       );
       height: 100%;
       width: 100%;
@@ -84,5 +128,14 @@ section {
 
   #preview-5 {
     font-size: 20px;
+  }
+}
+
+.blinking {
+  animation: blinking 0.6s infinite;
+  @keyframes blinking {
+    50% {
+      opacity: 0.25;
+    }
   }
 }

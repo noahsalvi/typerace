@@ -1,17 +1,24 @@
-import { Component, OnInit, HostListener, Host } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostListener,
+  Host,
+  OnDestroy
+} from "@angular/core";
 import { GameService } from "src/app/game.service";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
 import { Key } from "protractor";
 import { isDefined } from "@angular/compiler/src/util";
 import { start } from "repl";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-game",
   templateUrl: "./game.component.html",
   styleUrls: ["./game.component.scss"]
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   words: string[];
   previews: BehaviorSubject<string[]> = new BehaviorSubject([
     "\n",
@@ -24,66 +31,116 @@ export class GameComponent implements OnInit {
   expectedChars: string[];
   userInput: string = "";
   countdown;
-  counter = 5;
+  counter = 60;
   charsTotal = 0;
   isFinished = false;
+  mistakes: string;
+  isBackspacePressed = false;
 
-  constructor(private gameService: GameService, private http: HttpClient) {
+  constructor(
+    private gameService: GameService,
+    private http: HttpClient,
+    private router: Router
+  ) {
     gameService.stage.next("game");
   }
 
-  ngOnInit() {
-    this.previews.subscribe(previews => (this.viewPreviews = previews));
-    let isBackspacePressed = false;
-    document.addEventListener("keydown", event => {
-      if (event.key == "Backspace") {
-        document.getElementById("focusCatcher").focus();
+  @HostListener("document:mousemove", ["$event"])
+  mousemove(event) {
+    this.toggleCursor(true);
+  }
 
+  @HostListener("document:keydown", ["$event"])
+  keydown(event) {
+    if (event.key == "Backspace") {
+      document.getElementById("focusCatcher").focus();
+
+      if (
+        this.userInput.length > 0 &&
+        !this.isBackspacePressed &&
+        !this.isFinished
+      ) {
+        this.isBackspacePressed = true;
+        this.userInput = this.userInput.slice(0, this.userInput.length - 1);
         if (
-          this.userInput.length > 0 &&
-          !isBackspacePressed &&
-          !this.isFinished
+          document
+            .getElementById("word")
+            .children.item(
+              document.getElementById("word").childElementCount - 1
+            ).className == "excess"
         ) {
-          isBackspacePressed = true;
-          this.userInput = this.userInput.slice(0, this.userInput.length - 1);
-          if (
-            document
-              .getElementById("word")
-              .children.item(
-                document.getElementById("word").childElementCount - 1
-              ).className == "excess"
-          ) {
-            document.getElementById("word").lastChild.remove();
-          }
-          this.updateChars();
+          document.getElementById("word").lastChild.remove();
         }
+        this.updateChars();
       }
-    });
+    }
+  }
 
-    document.addEventListener("keyup", event => {
-      isBackspacePressed = false;
-    });
+  @HostListener("document:keyup", ["$event"])
+  keyup(event) {
+    this.isBackspacePressed = false;
+  }
 
-    document.addEventListener("keypress", event => {
-      if (event.key == " " && this.userInput != "" && !this.isFinished) {
-        if (this.userInput == this.expectedChars.join("")) {
-          this.charsTotal += this.userInput.length + 1;
-        } else {
-          this.gameService.wrongWords.next(
-            this.gameService.wrongWords.value + 1
+  @HostListener("document:keypress", ["$event"])
+  keypress(event) {
+    if (event.key == " " && this.userInput != "" && !this.isFinished) {
+      if (this.userInput == this.expectedChars.join("")) {
+        this.charsTotal += this.userInput.length + 1;
+      } else {
+        console.log(this.gameService.wrongWords.value);
+        this.gameService.wrongWords.next(this.gameService.wrongWords.value + 1);
+      }
+
+      this.shiftWords();
+    } else if (event.key == " ") {
+      //catches spaces when word is empty
+    } else if (event.key != "Enter" && event.key != "Backspace") {
+      document.getElementById("start-here").style.animation =
+        "fade-out 0.35s ease-out forwards";
+      this.userInput += event.key;
+      if (!this.isFinished) this.updateChars();
+      this.startCountdown();
+    } else if (event.key == "Enter") {
+      clearInterval(this.countdown);
+      this.counter = 60;
+      this.userInput = "";
+      this.mistakes = undefined;
+      this.countdown = undefined;
+      this.charsTotal = 0;
+      this.gameService.resetGame();
+      this.setupWords();
+      this.gameService.wrongWords.subscribe(mistakes => {
+        console.log("launched");
+        if (mistakes > 0) {
+          console.log("reached");
+          this.mistakes = "x" + mistakes;
+          document.getElementById("mistakes").style.animation =
+            "attention 0.5s";
+          setTimeout(
+            () => (document.getElementById("mistakes").style.animation = ""),
+            600
           );
         }
+      });
+    }
+  }
 
-        this.shiftWords();
-      } else if (event.key != "Enter" && event.key != "Backspace") {
-        this.userInput += event.key;
-        if (!this.isFinished) this.updateChars();
-        this.startCountdown();
+  ngOnInit() {
+    this.gameService.resetGame();
+
+    this.previews.subscribe(previews => (this.viewPreviews = previews));
+
+    this.gameService.wrongWords.subscribe(mistakes => {
+      console.log("launched");
+      if (mistakes > 0) {
+        console.log("reached");
+        this.mistakes = "x" + mistakes;
+        document.getElementById("mistakes").style.animation = "attention 0.5s";
+        setTimeout(
+          () => (document.getElementById("mistakes").style.animation = ""),
+          600
+        );
       }
-    });
-
-    document.addEventListener("mousemove", event => {
-      this.toggleCursor(true);
     });
 
     //Here is the start of the usual code
@@ -189,9 +246,11 @@ export class GameComponent implements OnInit {
         );
         if (this.counter <= 0) {
           clearInterval(this.countdown);
+
           this.isFinished = true;
           this.getRemainingChars();
-          console.log(this.charsTotal / 5, " wpm");
+
+          this.router.navigate(["race/result"], { skipLocationChange: true });
         } else if (this.counter == 5)
           document.getElementById("counter").classList.add("blinking");
       }, 1000);
@@ -208,9 +267,14 @@ export class GameComponent implements OnInit {
         hasMistake = true;
       }
     });
+
     if (!hasMistake) this.charsTotal += correctChars;
     this.gameService.wpm.next(
       Math.floor(this.charsTotal / 5 / ((60 - this.counter) / 60))
     );
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.countdown);
   }
 }

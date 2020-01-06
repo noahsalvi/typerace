@@ -7,9 +7,15 @@
     <div id="preview-4">{{ viewPreviews[3] }}<br /></div>
     <div id="preview-5">{{ viewPreviews[4] }}<br /></div>
   </div>
-  <div id="word" (click)="toggleCursor(false)"><br /></div>
+  <div class="word-row">
+    <img id="start-here" src="assets/start-here.svg" alt="start here" />
+    <div id="word" (click)="toggleCursor(false)"><br /></div>
+  </div>
+
   <input type="text" id="focusCatcher" readonly autofocus />
 
-  <div class="line"></div>
+  <div class="line">
+    <div id="mistakes">{{ mistakes }}</div>
+  </div>
   <div id="counter">{{ counter | minuteSeconds }}s</div>
 </section>

@@ -4,15 +4,16 @@ header {
   display: flex;
   justify-content: center;
   width: 100%;
-}
-#logo {
-  margin-top: 100px;
-  max-width: 95%;
-  transition: transform 0.2s;
-  cursor: pointer;
-  outline: none;
-  &:hover {
-    transform: scale(1.02);
+
+  #logo {
+    margin-top: 100px;
+    max-width: 95%;
+    transition: transform 0.2s;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+      transform: scale(1.02);
+    }
   }
 }
 
@@ -26,17 +27,14 @@ footer {
 .pink {
   color: $pink;
 }
+
 .game-footer,
- .result-footer {
+ .scoreboard-footer {
   font-size: 30px;
   height: 96px;
 }
 
 .game-footer {
-  padding: 0 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   animation: appear-up 0.5s ease;
   @keyframes appear-up {
     from {
@@ -44,6 +42,91 @@ footer {
     }
     to {
       transform: translateY(1);
+    }
+  }
+
+  .footer-content {
+    padding: 0 50px;
+    height: 100%;
+    margin: auto;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@keyframes switchToResult {
+  from {
+    height: 96px;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.result-footer {
+  height: 450px;
+  animation: switchToResult 0.6s ease-out;
+  padding: 0 50px;
+
+  @keyframes appear-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(1);
+    }
+  }
+
+  .footer-content {
+    height: 100%;
+    margin: auto;
+    max-width: 1000px;
+
+    position: relative;
+    opacity: 0;
+    animation: appear 0.6s linear forwards;
+
+    .helper-container {
+      width: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      font-size: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      .share-container {
+        .text {
+        }
+
+        img {
+          margin-top: 5px;
+          height: 60px;
+          cursor: pointer;
+
+          transition: transform 0.1s;
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      .control-container {
+        .press-r {
+        }
+
+        .press-enter {
+          margin-top: 20px;
+        }
+      }
     }
   }
 }

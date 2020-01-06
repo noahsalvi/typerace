@@ -1,0 +1,28 @@
+@import "src/variables.scss";
+
+main {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    text-align: center;
+    font-size: 55px;
+    font-family: "Lobster", serif;
+  }
+
+  .wpm {
+    margin-top: 10px;
+    font-size: 40px;
+
+    .number {
+      color: $pink;
+      font-size: 55px;
+    }
+  }
+
+  .feedback {
+    font-size: 28px;
+  }
+}

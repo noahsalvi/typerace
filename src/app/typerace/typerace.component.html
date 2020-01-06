@@ -30,17 +30,35 @@
   </svg>
 </header>
 <router-outlet></router-outlet>
-<footer *ngIf="stage == 'game'" class="game-footer">
-  <div class="current-wpm">
-    Current Wpm&nbsp;<span class="pink">{{ gameService.wpm | async }}</span>
-  </div>
-  <div class="press-enter">
-    Press <span class="pink">Enter</span> to restart
+<footer *ngIf="(gameService.stage | async) == 'game'" class="game-footer">
+  <div class="footer-content">
+    <div class="current-wpm">
+      Current Wpm&nbsp;<span class="pink">{{ gameService.wpm | async }}</span>
+    </div>
+    <div class="press-enter">
+      Press <span class="pink">Enter</span> to restart
+    </div>
   </div>
 </footer>
-<footer *ngIf="stage == 'result'" class="result-footer">
-  result
+<footer *ngIf="(gameService.stage | async) == 'result'" class="result-footer">
+  <div class="footer-content">
+    <div class="helper-container">
+      <div class="share-container">
+        <div class="text">Share my Result</div>
+        <img src="assets/share.svg" alt="Share" />
+      </div>
+      <div class="control-container">
+        <div class="press-r">Press <span class="pink">R</span> to restart</div>
+        <div class="press-enter">
+          Press <span class="pink">Enter</span> for Scoreboard
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
-<footer *ngIf="stage == 'scoreboard'" class="scoreboard-footer">
+<footer
+  *ngIf="(gameService.stage | async) == 'scoreboard'"
+  class="scoreboard-footer"
+>
   scoreboard
 </footer>

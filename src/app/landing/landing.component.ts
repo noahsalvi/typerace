@@ -18,8 +18,8 @@ export class LandingComponent implements OnInit {
   }
 
   submitName() {
-    if (this.playerName != "") {
-      this.gameService.setName(this.playerName);
+    if (this.playerName != "" && this.playerName != " ") {
+      this.gameService.setName(this.playerName.trim());
       this.router.navigate(["race"], { skipLocationChange: true });
     }
   }

@@ -1,1 +1,8 @@
-<p>result works!</p>
+<main>
+  <h2 class="title">Your Average Typing&nbsp;Speed</h2>
+  <div class="wpm">
+    <span class="number">{{ gameService.wpm | async }}</span
+    >WPM
+  </div>
+  <div class="feedback">{{ feedback }}</div>
+</main>
