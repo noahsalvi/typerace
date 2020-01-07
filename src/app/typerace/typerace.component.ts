@@ -7,7 +7,10 @@ import { GameService, stages } from "../game.service";
   styleUrls: ["./typerace.component.scss"]
 })
 export class TyperaceComponent implements OnInit {
-  constructor(private gameService: GameService) {}
+  game;
+  constructor(private gameService: GameService) {
+    this.game = gameService;
+  }
 
   ngOnInit() {}
 }

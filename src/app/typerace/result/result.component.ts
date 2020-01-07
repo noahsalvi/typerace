@@ -9,7 +9,9 @@ import { Router } from "@angular/router";
 })
 export class ResultComponent implements OnInit {
   feedback: string;
+  game;
   constructor(private gameService: GameService, private router: Router) {
+    this.game = gameService;
     gameService.stage.next("result");
   }
 
