@@ -110,9 +110,7 @@ export class GameComponent implements OnInit, OnDestroy {
       this.gameService.resetGame();
       this.setupWords();
       this.gameService.wrongWords.subscribe(mistakes => {
-        console.log("launched");
         if (mistakes > 0) {
-          console.log("reached");
           this.mistakes = "x" + mistakes;
           document.getElementById("mistakes").style.animation =
             "attention 0.5s";
@@ -144,7 +142,7 @@ export class GameComponent implements OnInit, OnDestroy {
     });
 
     //Here is the start of the usual code
-    this.getWords();
+    this.setupWords();
   }
 
   updateChars() {
@@ -177,25 +175,20 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  getWords() {
-    this.http
-      .get("assets/words.txt", { responseType: "text" })
-      .subscribe(data => {
-        this.words = data.split(/\r?\n/);
-        this.setupWords();
-      });
-  }
-
   setupWords() {
     let nextPreviews = this.previews.getValue();
     this.previews.getValue().forEach((preview, index: number) => {
-      let randomNumber = Math.floor(Math.random() * this.words.length);
-      nextPreviews[index] = this.words[randomNumber];
+      let randomNumber = Math.floor(
+        Math.random() * this.gameService.words.value.length
+      );
+      nextPreviews[index] = this.gameService.words.value[randomNumber];
     });
     this.previews.next(nextPreviews);
-    let randomNumber = Math.floor(Math.random() * this.words.length);
+    let randomNumber = Math.floor(
+      Math.random() * this.gameService.words.value.length
+    );
 
-    let wordToType = this.words[randomNumber];
+    let wordToType = this.gameService.words.value[randomNumber];
     this.setupChars(wordToType);
   }
 
@@ -222,8 +215,12 @@ export class GameComponent implements OnInit, OnDestroy {
     for (let x = 0; x < 4; x++) {
       nextPreviews[x] = nextPreviews[x + 1];
     }
-    let randomNumber = Math.floor(Math.random() * this.words.length);
-    nextPreviews[nextPreviews.length - 1] = this.words[randomNumber];
+    let randomNumber = Math.floor(
+      Math.random() * this.gameService.words.value.length
+    );
+    nextPreviews[nextPreviews.length - 1] = this.gameService.words.value[
+      randomNumber
+    ];
     this.previews.next(nextPreviews);
   }
 

@@ -1,5 +1,6 @@
 import { Injectable, Type } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
 export type stages = "game" | "result" | "scoreboard";
 
@@ -10,9 +11,10 @@ export class GameService {
   stage: BehaviorSubject<stages>;
   wpm: BehaviorSubject<number>;
   wrongWords: BehaviorSubject<number>;
-  mistakes: BehaviorSubject<number>;
+  words: BehaviorSubject<string[]>;
 
-  constructor() {
+  constructor(private http: HttpClient) {
+    this.getWords();
     this.resetGame();
   }
 
@@ -24,6 +26,13 @@ export class GameService {
     sessionStorage.setItem("name", name);
   }
 
+  getWords() {
+    this.http
+      .get("assets/words.txt", { responseType: "text" })
+      .subscribe(data => {
+        this.words = new BehaviorSubject<string[]>(data.split(/\r?\n/));
+      });
+  }
   resetGame() {
     this.stage = new BehaviorSubject<stages>("game");
     this.wpm = new BehaviorSubject<number>(0);
