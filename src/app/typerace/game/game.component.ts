@@ -6,7 +6,6 @@ import {
   OnDestroy
 } from "@angular/core";
 import { GameService } from "src/app/game.service";
-import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
 import { Key } from "protractor";
 import { isDefined } from "@angular/compiler/src/util";
@@ -37,11 +36,7 @@ export class GameComponent implements OnInit, OnDestroy {
   mistakes: string;
   isBackspacePressed = false;
 
-  constructor(
-    private gameService: GameService,
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor(private gameService: GameService, private router: Router) {
     gameService.stage.next("game");
   }
 
@@ -102,6 +97,7 @@ export class GameComponent implements OnInit, OnDestroy {
       this.startCountdown();
     } else if (event.key == "Enter") {
       clearInterval(this.countdown);
+      document.getElementById("counter").classList.remove("blinking");
       this.counter = 60;
       this.userInput = "";
       this.mistakes = undefined;
