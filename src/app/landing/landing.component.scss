@@ -1,7 +1,7 @@
 @import "src/variables.scss";
 main {
   height: 100vh;
-
+  text-align: center;
   header {
     display: flex;
     justify-content: center;
@@ -58,6 +58,7 @@ main {
       margin-left: 20px;
     }
   }
+
   .instruction {
     font-size: 25px;
     width: 400px;
@@ -74,6 +75,34 @@ main {
         height: 30px;
       }
     }
+  }
+
+  .direction-switch {
+    margin: 20px auto 0 auto;
+    height: 35px;
+    width: 70px;
+    border-radius: 35px;
+    background: rgba(255, 145, 145, 0.57);
+    cursor: pointer;
+    position: relative;
+
+    #switch-circle {
+      height: 35px;
+      width: 35px;
+      background: $pink;
+      border-radius: 38px;
+      position: absolute;
+      left: 0px;
+
+      transition: all 0.2s;
+    }
+  }
+
+  #arrows {
+    margin-top: 9px;
+    text-align: center;
+
+    transition: all 0.2s;
   }
 
   @keyframes hover {

@@ -6,21 +6,23 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LandingComponent } from "./landing/landing.component";
 import { TyperaceComponent } from "./typerace/typerace.component";
-import { GameComponent } from "./typerace/game/game.component";
+import { GameVerticalComponent } from "./typerace/game-vertical/game-vertical.component";
 import { ScoreboardComponent } from "./typerace/scoreboard/scoreboard.component";
 import { ResultComponent } from "./typerace/result/result.component";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { MinuteSecondsPipe } from "./minuteSeconds.pipe";
+import { GameHorizontalComponent } from "./typerace/game-horizontal/game-horizontal.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     TyperaceComponent,
-    GameComponent,
+    GameVerticalComponent,
     ScoreboardComponent,
     ResultComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
+    GameHorizontalComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

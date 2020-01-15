@@ -1,31 +1,21 @@
 import {
   Component,
   OnInit,
+  AfterViewInit,
   HostListener,
-  Host,
   OnDestroy
 } from "@angular/core";
 import { GameService } from "src/app/game.service";
-import { BehaviorSubject } from "rxjs";
-import { Key } from "protractor";
 import { isDefined } from "@angular/compiler/src/util";
-import { start } from "repl";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-game",
-  templateUrl: "./game.component.html",
-  styleUrls: ["./game.component.scss"]
+  selector: "app-game-horizontal",
+  templateUrl: "./game-horizontal.component.html",
+  styleUrls: ["./game-horizontal.component.scss"]
 })
-export class GameComponent implements OnInit, OnDestroy {
-  words: string[];
-  previews: BehaviorSubject<string[]> = new BehaviorSubject([
-    "\n",
-    "\n",
-    "\n",
-    "\n",
-    "\n"
-  ]);
+export class GameHorizontalComponent implements OnInit, OnDestroy {
+  words: string[] = [];
   viewPreviews;
   expectedChars: string[];
   userInput: string = "";
@@ -35,10 +25,9 @@ export class GameComponent implements OnInit, OnDestroy {
   isFinished = false;
   mistakes: string;
   isBackspacePressed = false;
+  wordIndex = 0;
 
-  constructor(private gameService: GameService, private router: Router) {
-    gameService.stage.next("game");
-  }
+  constructor(private gameService: GameService, private router: Router) {}
 
   @HostListener("document:mousemove", ["$event"])
   mousemove(event) {
@@ -59,12 +48,12 @@ export class GameComponent implements OnInit, OnDestroy {
         this.userInput = this.userInput.slice(0, this.userInput.length - 1);
         if (
           document
-            .getElementById("word")
+            .getElementById("currentWord")
             .children.item(
-              document.getElementById("word").childElementCount - 1
+              document.getElementById("currentWord").childElementCount - 1
             ).className == "excess"
         ) {
-          document.getElementById("word").lastChild.remove();
+          document.getElementById("currentWord").lastChild.remove();
         }
         this.updateChars();
       }
@@ -82,14 +71,24 @@ export class GameComponent implements OnInit, OnDestroy {
       if (this.userInput == this.expectedChars.join("")) {
         this.charsTotal += this.userInput.length + 1;
       } else {
-        console.log(this.gameService.wrongWords.value);
         this.gameService.wrongWords.next(this.gameService.wrongWords.value + 1);
-      }
 
-      this.shiftWords();
-    } else if (event.key == " ") {
-      //catches spaces when word is empty
-    } else if (event.key != "Enter" && event.key != "Backspace") {
+        let wordPreviewElement = document.getElementById(
+          "word-" + this.wordIndex
+        );
+        for (let i = 0; i < wordPreviewElement.childElementCount; i++) {
+          if (wordPreviewElement.children.item(i).className == "preview")
+            wordPreviewElement.children.item(i).className = "excess";
+        }
+      }
+      this.wordIndex++;
+      this.nextLine();
+      this.nextWord();
+    } else if (
+      event.key != "Enter" &&
+      event.key != "Backspace" &&
+      event.key != " "
+    ) {
       document.getElementById("start-here").style.animation =
         "fade-out 0.35s ease-out forwards";
       this.userInput += event.key;
@@ -104,7 +103,9 @@ export class GameComponent implements OnInit, OnDestroy {
       this.countdown = undefined;
       this.charsTotal = 0;
       this.gameService.resetGame();
-      this.setupWords();
+      // this.setupWords();
+      this.wordIndex = 0;
+      this.resetGame();
       this.gameService.wrongWords.subscribe(mistakes => {
         if (mistakes > 0) {
           this.mistakes = "x" + mistakes;
@@ -120,14 +121,9 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.gameService.resetGame();
-
-    this.previews.subscribe(previews => (this.viewPreviews = previews));
-
+    setTimeout(() => this.setupGame(), 0); //timeout is needed for it display the length correctly
     this.gameService.wrongWords.subscribe(mistakes => {
-      console.log("launched");
       if (mistakes > 0) {
-        console.log("reached");
         this.mistakes = "x" + mistakes;
         document.getElementById("mistakes").style.animation = "attention 0.5s";
         setTimeout(
@@ -136,28 +132,112 @@ export class GameComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
 
-    //Here is the start of the usual code
-    this.setupWords();
+  setupGame() {
+    this.getWords();
+
+    let text = document.getElementById("text");
+    for (let i = 0; i < text.childElementCount; i++) {
+      text.children.item(i).remove();
+    }
+
+    this.words.forEach((word, index) => {
+      let node = document.createElement("span");
+      node.id = "word-" + index;
+
+      word.split("").forEach(char => {
+        let span = document.createElement("span");
+        span.innerText = char;
+        span.className = "preview";
+        node.appendChild(span);
+      });
+
+      text.appendChild(node);
+    });
+
+    this.setupWordToType();
+  }
+
+  resetGame() {
+    this.getWords();
+
+    let text = document.getElementById("text");
+    text.style.bottom = "";
+
+    let lastChild = text.lastElementChild;
+    while (text.lastElementChild) {
+      text.removeChild(lastChild);
+      lastChild = text.lastElementChild;
+    }
+
+    this.words.forEach((word, index) => {
+      let node = document.createElement("span");
+      node.id = "word-" + index;
+
+      word.split("").forEach(char => {
+        let span = document.createElement("span");
+        span.innerText = char;
+        span.className = "preview";
+        node.appendChild(span);
+      });
+
+      text.appendChild(node);
+    });
+
+    this.setupWordToType();
+  }
+
+  getWords() {
+    for (let index = 0; index < 300; index++) {
+      let words = this.gameService.words.value;
+      let randomNumber = Math.floor(Math.random() * words.length);
+      this.words[index] = words[randomNumber];
+    }
+  }
+
+  setupWordToType() {
+    let wordElement = document.getElementById("currentWord");
+    wordElement.innerText = ""; //remove br-tag & existing characters
+    this.userInput = ""; //remove typed Input
+
+    let word = this.words[this.wordIndex];
+
+    this.expectedChars = word.split("");
+    this.expectedChars.forEach((char, index) => {
+      let node = document.createElement("span");
+      node.innerText = char;
+      node.className = "preview";
+
+      wordElement.appendChild(node);
+    });
   }
 
   updateChars() {
     this.toggleCursor(false);
-    let wordElement = document.getElementById("word");
+    let wordElement = document.getElementById("currentWord");
+    let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
 
     this.expectedChars.forEach((char, index) => {
       if (this.expectedChars[index] == this.userInput[index]) {
         wordElement.children.item(index).className = "";
+        wordPreviewElement.children.item(index).className = "";
       } else if (!isDefined(this.userInput[index])) {
         wordElement.children.item(index).className = "preview";
+        wordPreviewElement.children.item(index).className = "preview";
       } else {
         wordElement.children.item(index).className = "wrong";
+        wordPreviewElement.children.item(index).className = "wrong";
       }
     });
 
     if (this.userInput.length > this.expectedChars.length) {
       let startIndex = this.expectedChars.length;
       let excessChars: string[] = this.userInput.slice(startIndex).split("");
+
+      for (let i = 0; i < wordPreviewElement.childElementCount; i++) {
+        wordPreviewElement.children.item(i).className = "excess";
+      }
 
       excessChars.forEach((char, index) => {
         if (!wordElement.children.item(startIndex + index)) {
@@ -171,62 +251,37 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  setupWords() {
-    let nextPreviews = this.previews.getValue();
-    this.previews.getValue().forEach((preview, index: number) => {
-      let randomNumber = Math.floor(
-        Math.random() * this.gameService.words.value.length
-      );
-      nextPreviews[index] = this.gameService.words.value[randomNumber];
-    });
-    this.previews.next(nextPreviews);
-    let randomNumber = Math.floor(
-      Math.random() * this.gameService.words.value.length
-    );
-
-    let wordToType = this.gameService.words.value[randomNumber];
-    this.setupChars(wordToType);
-  }
-
-  setupChars(word: string) {
-    let wordElement = document.getElementById("word");
-    wordElement.innerText = ""; //remove br-tag & existing characters
-    this.userInput = ""; //remove typed Input
-
-    this.expectedChars = word.split("");
-    this.expectedChars.forEach((char, index) => {
-      let node = document.createElement("span");
-      node.innerText = char;
-      node.className = "preview";
-
-      wordElement.appendChild(node);
-    });
-  }
-
-  shiftWords() {
-    let nextPreviews = this.previews.getValue();
-    let wordToType = nextPreviews[0];
-    this.setupChars(wordToType);
-
-    for (let x = 0; x < 4; x++) {
-      nextPreviews[x] = nextPreviews[x + 1];
-    }
-    let randomNumber = Math.floor(
-      Math.random() * this.gameService.words.value.length
-    );
-    nextPreviews[nextPreviews.length - 1] = this.gameService.words.value[
-      randomNumber
-    ];
-    this.previews.next(nextPreviews);
+  nextWord() {
+    this.setupWordToType();
   }
 
   toggleCursor(bool: boolean) {
     if (bool) {
-      document.getElementById("word").style.cursor = "text";
+      document.getElementById("currentWord").style.cursor = "text";
       document.body.style.cursor = "default";
     } else {
-      document.getElementById("word").style.cursor = "none";
+      document.getElementById("currentWord").style.cursor = "none";
       document.body.style.cursor = "none";
+    }
+  }
+
+  nextLine() {
+    let previewsWord = document.getElementById("word-" + (this.wordIndex - 1));
+    let currentWord = document.getElementById("word-" + this.wordIndex);
+    let text = document.getElementById("text");
+
+    if (
+      currentWord.getBoundingClientRect().left <
+      previewsWord.getBoundingClientRect().left
+    ) {
+      let currentOffset = parseInt(text.style.bottom);
+
+      if (isNaN(currentOffset)) {
+        text.style.bottom = "55px";
+      } else {
+        let newOffset = currentOffset + 55;
+        text.style.bottom = newOffset + "px";
+      }
     }
   }
 
@@ -241,30 +296,12 @@ export class GameComponent implements OnInit, OnDestroy {
           clearInterval(this.countdown);
 
           this.isFinished = true;
-          this.getRemainingChars();
 
           this.router.navigate(["race/result"], { skipLocationChange: true });
         } else if (this.counter == 5)
           document.getElementById("counter").classList.add("blinking");
       }, 1000);
     }
-  }
-
-  getRemainingChars() {
-    let correctChars = 0;
-    let hasMistake = false;
-    this.userInput.split("").forEach((char, index) => {
-      if (char == this.expectedChars[index]) {
-        correctChars++;
-      } else {
-        hasMistake = true;
-      }
-    });
-
-    if (!hasMistake) this.charsTotal += correctChars;
-    this.gameService.wpm.next(
-      Math.floor(this.charsTotal / 5 / ((60 - this.counter) / 60))
-    );
   }
 
   ngOnDestroy() {

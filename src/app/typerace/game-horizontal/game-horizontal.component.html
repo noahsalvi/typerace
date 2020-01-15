@@ -1,0 +1,18 @@
+<section>
+  <div id="preview-container">
+    <div class="text-container">
+      <div id="text"></div>
+    </div>
+  </div>
+  <div class="word-row">
+    <img id="start-here" src="assets/start-here.svg" alt="start here" />
+    <div id="currentWord" (click)="toggleCursor(false)"><br /></div>
+  </div>
+
+  <input type="text" id="focusCatcher" readonly autofocus />
+
+  <div class="line">
+    <div id="mistakes">{{ mistakes }}</div>
+  </div>
+  <div id="counter">{{ counter | minuteSeconds }}s</div>
+</section>
