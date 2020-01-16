@@ -18,7 +18,12 @@ export class ResultComponent implements OnInit {
   @HostListener("document:keypress", ["$event"])
   keypress(event: KeyboardEvent) {
     if (event.key == "r") {
-      this.router.navigate(["race"], { skipLocationChange: true });
+      let direction = localStorage.getItem("direction");
+      if (direction == "horizontal") {
+        this.router.navigate(["race/horizontal"], { skipLocationChange: true });
+      } else {
+        this.router.navigate(["race/vertical"], { skipLocationChange: true });
+      }
     }
   }
 

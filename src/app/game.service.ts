@@ -12,7 +12,6 @@ export class GameService {
   wpm: BehaviorSubject<number>;
   wrongWords: BehaviorSubject<number>;
   words: BehaviorSubject<string[]>;
-  isHorizontal: BehaviorSubject<boolean>;
 
   constructor(private http: HttpClient) {
     this.getWords();
