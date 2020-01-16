@@ -8,16 +8,16 @@ import { Router } from "@angular/router";
   styleUrls: ["./result.component.scss"]
 })
 export class ResultComponent implements OnInit {
+  cooldown = true;
   feedback: string;
   game;
   constructor(private gameService: GameService, private router: Router) {
     this.game = gameService;
     gameService.stage.next("result");
   }
-
   @HostListener("document:keypress", ["$event"])
   keypress(event: KeyboardEvent) {
-    if (event.key == "r") {
+    if (event.key == "r" && !this.cooldown) {
       let direction = localStorage.getItem("direction");
       if (direction == "horizontal") {
         this.router.navigate(["race/horizontal"], { skipLocationChange: true });
@@ -29,6 +29,7 @@ export class ResultComponent implements OnInit {
 
   ngOnInit() {
     this.evaluate();
+    setTimeout(() => (this.cooldown = false), 600);
   }
 
   evaluate() {

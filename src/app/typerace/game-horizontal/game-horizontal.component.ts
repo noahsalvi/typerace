@@ -27,7 +27,9 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   isBackspacePressed = false;
   wordIndex = 0;
 
-  constructor(private gameService: GameService, private router: Router) {}
+  constructor(private gameService: GameService, private router: Router) {
+    gameService.stage.next("game");
+  }
 
   @HostListener("document:mousemove", ["$event"])
   mousemove(event) {
