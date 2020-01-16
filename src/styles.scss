@@ -18,8 +18,9 @@ body {
 
 //Placed here because they would be ignored by Dom manipulation if placed in game.component.scss
 .preview {
-  color: rgba(255, 255, 255, 0.22);
+  color: #565656;
 }
+
 .wrong {
   color: red;
 }
@@ -27,8 +28,16 @@ body {
   color: orange;
 }
 
+//horizontal-game
 #text > * {
   margin-left: 8px;
+  top: 0; //needed for .active preview transition of top
 }
 
-//horizontal-game
+.active-preview {
+  // color: #565656;
+  // text-decoration: underline;
+  position: relative;
+  transition: all 0.1s ease-out;
+  top: -4px !important;
+}

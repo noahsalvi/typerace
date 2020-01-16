@@ -159,6 +159,9 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     });
 
     this.setupWordToType();
+
+    // let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
+    // wordPreviewElement.className = "active-preview";
   }
 
   resetGame() {
@@ -188,6 +191,9 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     });
 
     this.setupWordToType();
+
+    // let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
+    // wordPreviewElement.className = "active-preview";
   }
 
   getWords() {
@@ -219,6 +225,8 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     this.toggleCursor(false);
     let wordElement = document.getElementById("currentWord");
     let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
+
+    console.log("test");
 
     this.expectedChars.forEach((char, index) => {
       if (this.expectedChars[index] == this.userInput[index]) {
@@ -255,6 +263,9 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
 
   nextWord() {
     this.setupWordToType();
+
+    let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
+    wordPreviewElement.className = "active-preview";
   }
 
   toggleCursor(bool: boolean) {
@@ -285,6 +296,8 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
         text.style.bottom = newOffset + "px";
       }
     }
+
+    previewsWord.className = "";
   }
 
   startCountdown() {
