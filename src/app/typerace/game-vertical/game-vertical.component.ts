@@ -98,6 +98,9 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
     } else if (event.key == "Enter") {
       clearInterval(this.countdown);
       document.getElementById("counter").classList.remove("blinking");
+      document.getElementById("start-here").style.animationDirection =
+        "reverse";
+      document.getElementById("start-here").style.animation = "";
       this.counter = 60;
       this.userInput = "";
       this.mistakes = undefined;
@@ -222,11 +225,9 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
 
   toggleCursor(bool: boolean) {
     if (bool) {
-      document.getElementById("word").style.cursor = "text";
-      document.body.style.cursor = "default";
+      document.body.style.cursor = "";
     } else {
-      document.getElementById("word").style.cursor = "none";
-      document.body.style.cursor = "none";
+      document.body.style.cursor = "none !important";
     }
   }
 

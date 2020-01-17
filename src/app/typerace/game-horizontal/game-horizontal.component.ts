@@ -8,6 +8,7 @@ import {
 import { GameService } from "src/app/game.service";
 import { isDefined } from "@angular/compiler/src/util";
 import { Router } from "@angular/router";
+import { $ } from "protractor";
 
 @Component({
   selector: "app-game-horizontal",
@@ -20,7 +21,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   expectedChars: string[];
   userInput: string = "";
   countdown;
-  counter = 3;
+  counter = 60;
   charsTotal = 0;
   isFinished = false;
   mistakes: string;
@@ -39,8 +40,6 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   @HostListener("document:keydown", ["$event"])
   keydown(event) {
     if (event.key == "Backspace") {
-      document.getElementById("focusCatcher").focus();
-
       if (
         this.userInput.length > 0 &&
         !this.isBackspacePressed &&
@@ -261,11 +260,11 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
 
   toggleCursor(bool: boolean) {
     if (bool) {
-      document.getElementById("currentWord").style.cursor = "text";
-      document.body.style.cursor = "default";
+      document.body.style.cursor = "";
+      document.getElementById("logo").style.cursor = "";
     } else {
-      document.getElementById("currentWord").style.cursor = "none";
       document.body.style.cursor = "none";
+      document.getElementById("logo").style.cursor = "none";
     }
   }
 
@@ -302,6 +301,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
           clearInterval(this.countdown);
 
           this.isFinished = true;
+          this.toggleCursor(true);
 
           this.router.navigate(["race/result"], { skipLocationChange: true });
         } else if (this.counter == 5)
