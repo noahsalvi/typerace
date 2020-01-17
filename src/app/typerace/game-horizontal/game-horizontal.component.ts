@@ -20,7 +20,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   expectedChars: string[];
   userInput: string = "";
   countdown;
-  counter = 60;
+  counter = 3;
   charsTotal = 0;
   isFinished = false;
   mistakes: string;
@@ -97,28 +97,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
       if (!this.isFinished) this.updateChars();
       this.startCountdown();
     } else if (event.key == "Enter") {
-      clearInterval(this.countdown);
-      document.getElementById("counter").classList.remove("blinking");
-      this.counter = 60;
-      this.userInput = "";
-      this.mistakes = undefined;
-      this.countdown = undefined;
-      this.charsTotal = 0;
-      this.gameService.resetGame();
-      // this.setupWords();
-      this.wordIndex = 0;
       this.resetGame();
-      this.gameService.wrongWords.subscribe(mistakes => {
-        if (mistakes > 0) {
-          this.mistakes = "x" + mistakes;
-          document.getElementById("mistakes").style.animation =
-            "attention 0.5s";
-          setTimeout(
-            () => (document.getElementById("mistakes").style.animation = ""),
-            600
-          );
-        }
-      });
     }
   }
 
@@ -138,33 +117,48 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
 
   setupGame() {
     this.getWords();
-
-    let text = document.getElementById("text");
-    for (let i = 0; i < text.childElementCount; i++) {
-      text.children.item(i).remove();
-    }
+    this.resetGame();
 
     this.words.forEach((word, index) => {
       let node = document.createElement("span");
       node.id = "word-" + index;
-
       word.split("").forEach(char => {
         let span = document.createElement("span");
         span.innerText = char;
         span.className = "preview";
         node.appendChild(span);
       });
-
+      let text = document.getElementById("text");
       text.appendChild(node);
     });
 
     this.setupWordToType();
-
-    // let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
-    // wordPreviewElement.className = "active-preview";
   }
 
   resetGame() {
+    clearInterval(this.countdown);
+
+    document.getElementById("counter").classList.remove("blinking");
+    this.counter = 3;
+    this.userInput = "";
+    this.mistakes = undefined;
+    console.log("undfeined");
+    this.countdown = undefined;
+    this.charsTotal = 0;
+    this.gameService.resetGame();
+    this.wordIndex = 0;
+
+    this.gameService.wrongWords.subscribe(mistakes => {
+      if (mistakes > 0) {
+        this.mistakes = "x" + mistakes;
+        document.getElementById("mistakes").style.animation = "attention 0.5s";
+        setTimeout(
+          () => (document.getElementById("mistakes").style.animation = ""),
+          600
+        );
+      }
+    });
+
     this.getWords();
 
     let text = document.getElementById("text");
@@ -191,9 +185,6 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     });
 
     this.setupWordToType();
-
-    // let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
-    // wordPreviewElement.className = "active-preview";
   }
 
   getWords() {
