@@ -138,7 +138,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     clearInterval(this.countdown);
 
     document.getElementById("counter").classList.remove("blinking");
-    this.counter = 3;
+    this.counter = 60;
     this.userInput = "";
     this.mistakes = undefined;
     console.log("undfeined");
