@@ -50,17 +50,20 @@ section {
     }
   }
 
-  #focusCatcher {
-    position: absolute;
-    opacity: 0;
-  }
-
   .line {
     width: 250px;
     height: 7px;
     background: $pink;
     border-radius: 8px;
     position: relative;
+
+    #caps-lock {
+      position: absolute;
+      opacity: 0;
+      left: -120px;
+      top: -35px;
+    }
+
     #mistakes {
       font-size: 20px;
       top: -13px;

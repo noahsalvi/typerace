@@ -3,7 +3,8 @@ import {
   OnInit,
   AfterViewInit,
   HostListener,
-  OnDestroy
+  OnDestroy,
+  Input
 } from "@angular/core";
 import { GameService } from "src/app/game.service";
 import { isDefined } from "@angular/compiler/src/util";
@@ -38,6 +39,14 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
 
   @HostListener("document:keydown", ["$event"])
   keydown(event) {
+    //check for caps lock
+    let capsLock = document.getElementById("caps-lock");
+    if (event.getModifierState("CapsLock")) {
+      capsLock.style.opacity = "1";
+    } else {
+      capsLock.style.opacity = "0";
+    }
+
     if (event.key == "Backspace") {
       document.getElementById("focusCatcher").focus();
       if (

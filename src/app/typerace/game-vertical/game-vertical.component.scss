@@ -22,6 +22,14 @@ section {
     background: $pink;
     position: relative;
 
+    #caps-lock {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 70px;
+      opacity: 0;
+    }
+
     #mistakes {
       font-size: 20px;
       top: -12px;
@@ -80,15 +88,6 @@ section {
     }
   }
 
-  #focusCatcher {
-    position: absolute;
-    background: none;
-    border: none;
-    user-select: none;
-    cursor: default;
-    outline: none;
-  }
-
   .previews {
     display: flex;
     flex-direction: column-reverse;
@@ -128,14 +127,5 @@ section {
 
   #preview-5 {
     font-size: 20px;
-  }
-}
-
-.blinking {
-  animation: blinking 0.6s infinite;
-  @keyframes blinking {
-    50% {
-      opacity: 0.25;
-    }
   }
 }

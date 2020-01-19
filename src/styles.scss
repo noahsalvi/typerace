@@ -16,6 +16,24 @@ body {
   background-color: $background;
 }
 
+#focusCatcher {
+  position: absolute;
+  background: none;
+  border: none;
+  user-select: none;
+  cursor: default;
+  outline: none;
+}
+
+.blinking {
+  animation: blinking 0.6s infinite;
+  @keyframes blinking {
+    50% {
+      opacity: 0.25;
+    }
+  }
+}
+
 //Placed here because they would be ignored by Dom manipulation if placed in game.component.scss
 .preview {
   color: #565656;
