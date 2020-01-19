@@ -8,7 +8,6 @@ import {
 import { GameService } from "src/app/game.service";
 import { isDefined } from "@angular/compiler/src/util";
 import { Router } from "@angular/router";
-import { $ } from "protractor";
 
 @Component({
   selector: "app-game-horizontal",
@@ -40,6 +39,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   @HostListener("document:keydown", ["$event"])
   keydown(event) {
     if (event.key == "Backspace") {
+      document.getElementById("focusCatcher").focus();
       if (
         this.userInput.length > 0 &&
         !this.isBackspacePressed &&
