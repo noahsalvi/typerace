@@ -88,7 +88,6 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
       if (this.userInput == this.expectedChars.join("")) {
         this.charsTotal += this.userInput.length + 1;
       } else {
-        console.log(this.gameService.wrongWords.value);
         this.gameService.wrongWords.next(this.gameService.wrongWords.value + 1);
       }
 
@@ -104,6 +103,8 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
       if (!this.isFinished) this.updateChars();
       this.startCountdown();
     } else if (event.key == "Enter") {
+      this.gameService.animationController.next("enter");
+
       clearInterval(this.countdown);
       document.getElementById("counter").classList.remove("blinking");
       document.getElementById("start-here").style.animationDirection =
@@ -136,9 +137,7 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
     this.previews.subscribe(previews => (this.viewPreviews = previews));
 
     this.gameService.wrongWords.subscribe(mistakes => {
-      console.log("launched");
       if (mistakes > 0) {
-        console.log("reached");
         this.mistakes = "x" + mistakes;
         document.getElementById("mistakes").style.animation = "attention 0.5s";
         setTimeout(
@@ -215,6 +214,8 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
   }
 
   shiftWords() {
+    this.gameService.totalWords.next(this.gameService.totalWords.value + 1);
+
     let nextPreviews = this.previews.getValue();
     let wordToType = nextPreviews[0];
     this.setupChars(wordToType);

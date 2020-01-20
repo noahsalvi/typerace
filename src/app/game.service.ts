@@ -11,9 +11,12 @@ export class GameService {
   stage: BehaviorSubject<stages>;
   wpm: BehaviorSubject<number>;
   wrongWords: BehaviorSubject<number>;
+  totalWords: BehaviorSubject<number>;
   words: BehaviorSubject<string[]>;
+  animationController: BehaviorSubject<string>;
 
   constructor(private http: HttpClient) {
+    this.animationController = new BehaviorSubject("");
     this.getWords();
     this.resetGame();
   }
@@ -38,5 +41,6 @@ export class GameService {
     this.wpm = new BehaviorSubject<number>(0);
 
     this.wrongWords = new BehaviorSubject<number>(0);
+    this.totalWords = new BehaviorSubject<number>(0);
   }
 }

@@ -12,17 +12,43 @@ main {
     font-family: "Lobster", serif;
   }
 
-  .wpm {
+  .statistic {
     margin-top: 10px;
-    font-size: 40px;
+    .wpm {
+      text-align: center;
+      font-size: 42px;
 
-    .number {
-      color: $pink;
-      font-size: 55px;
+      .number {
+        color: $pink;
+        font-size: 55px;
+      }
     }
   }
 
   .feedback {
+    @keyframes blinkMessage {
+      50% {
+        opacity: 80%;
+      }
+    }
+
+    margin-top: 20px;
     font-size: 28px;
+    animation: blinkMessage 1s infinite;
+  }
+}
+
+.accuracy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .percentage {
+    font-size: 30px;
+  }
+
+  .word-count {
+    margin-left: 9px;
+    color: $gray;
+    font-size: 25px;
   }
 }

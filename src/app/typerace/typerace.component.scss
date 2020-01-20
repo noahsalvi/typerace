@@ -26,6 +26,14 @@ footer {
 
 .pink {
   color: $pink;
+  position: relative;
+  top: 0;
+  @keyframes buttonClicked {
+    50% {
+      color: white;
+      top: -5px;
+    }
+  }
 }
 
 .game-footer,

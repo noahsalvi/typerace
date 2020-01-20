@@ -1,9 +1,26 @@
 <main>
-  <h2 class="title">Your Average Typing&nbsp;Speed</h2>
-  <div class="wpm">
-    <span class="number">{{ game.wpm | async }}</span
-    >WPM
+  <h2 class="title">Average Typing&nbsp;Speed</h2>
+  <div class="statistic">
+    <div class="wpm">
+      <span class="number">{{ game.wpm | async }}</span
+      >WPM
+    </div>
+    <div class="accuracy">
+      <div class="percentage">
+        {{
+          (100 / (game.totalWords | async)) *
+            ((game.totalWords | async) - (game.wrongWords | async))
+            | number: "1.0-0"
+        }}%
+      </div>
+      <div class="word-count">
+        ({{ (game.totalWords | async) - (game.wrongWords | async) }}/{{
+          game.totalWords | async
+        }})
+      </div>
+    </div>
   </div>
-  <div class="feedback">{{ feedback }}</div>
+
+  <!-- <div class="feedback">{{ feedback }}</div> -->
 </main>
 <input type="text" id="focusCatcher" readonly autofocus />

@@ -40,12 +40,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   @HostListener("document:keydown", ["$event"])
   keydown(event) {
     //check for caps lock
-    let capsLock = document.getElementById("caps-lock");
-    if (event.getModifierState("CapsLock")) {
-      capsLock.style.opacity = "1";
-    } else {
-      capsLock.style.opacity = "0";
-    }
+    this.checkCapslock(event);
 
     if (event.key == "Backspace") {
       document.getElementById("focusCatcher").focus();
@@ -72,6 +67,9 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
 
   @HostListener("document:keyup", ["$event"])
   keyup(event) {
+    //Check Caps Lock
+    this.checkCapslock(event);
+
     this.isBackspacePressed = false;
   }
 
@@ -106,6 +104,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
       this.startCountdown();
     } else if (event.key == "Enter") {
       this.resetGame();
+      this.gameService.animationController.next("enter");
     }
   }
 
@@ -150,7 +149,6 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     this.counter = 60;
     this.userInput = "";
     this.mistakes = undefined;
-    console.log("undfeined");
     this.countdown = undefined;
     this.charsTotal = 0;
     this.gameService.resetGame();
@@ -225,8 +223,6 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     let wordElement = document.getElementById("currentWord");
     let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
 
-    console.log("test");
-
     this.expectedChars.forEach((char, index) => {
       if (this.expectedChars[index] == this.userInput[index]) {
         wordElement.children.item(index).className = "";
@@ -261,8 +257,8 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
   }
 
   nextWord() {
+    this.gameService.totalWords.next(this.gameService.totalWords.value + 1);
     this.setupWordToType();
-
     let wordPreviewElement = document.getElementById("word-" + this.wordIndex);
     wordPreviewElement.className = "active-preview";
   }
@@ -316,6 +312,15 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
         } else if (this.counter == 5)
           document.getElementById("counter").classList.add("blinking");
       }, 1000);
+    }
+  }
+
+  checkCapslock(event: KeyboardEvent) {
+    let capsLock = document.getElementById("caps-lock");
+    if (event.getModifierState("CapsLock")) {
+      capsLock.style.opacity = "1";
+    } else {
+      capsLock.style.opacity = "0";
     }
   }
 

@@ -65,16 +65,16 @@ section {
     }
 
     #mistakes {
-      font-size: 20px;
-      top: -13px;
+      font-size: 30px;
+      top: -20px;
       position: absolute;
-      left: 260px;
+      left: 270px;
       color: red;
 
       //   animation: attention 0.5s;
       @keyframes attention {
         50% {
-          transform: scale(1.1);
+          transform: scale(1.3);
         }
       }
     }
