@@ -6,18 +6,8 @@
       >WPM
     </div>
     <div class="accuracy">
-      <div class="percentage">
-        {{
-          (100 / (game.totalWords | async)) *
-            ((game.totalWords | async) - (game.wrongWords | async))
-            | number: "1.0-0"
-        }}%
-      </div>
-      <div class="word-count">
-        ({{ (game.totalWords | async) - (game.wrongWords | async) }}/{{
-          game.totalWords | async
-        }})
-      </div>
+      <div class="percentage">{{ percentage | number: "1.0-0" }}%</div>
+      <div class="word-count">({{ correctWords }}/{{ totalWords }})</div>
     </div>
   </div>
 

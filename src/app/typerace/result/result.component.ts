@@ -11,6 +11,9 @@ export class ResultComponent implements OnInit {
   cooldown = true;
   feedback: string;
   game;
+  correctWords;
+  totalWords;
+  percentage;
   constructor(private gameService: GameService, private router: Router) {
     this.game = gameService;
     gameService.stage.next("result");
@@ -28,8 +31,12 @@ export class ResultComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.evaluate();
     setTimeout(() => (this.cooldown = false), 600);
+    this.evaluate();
+    this.totalWords = this.game.totalWords.value;
+    this.correctWords = this.totalWords - this.game.wrongWords.value;
+    this.percentage = (100 / this.totalWords) * this.correctWords;
+    console.log(this.correctWords);
   }
 
   evaluate() {
