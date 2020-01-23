@@ -1,4 +1,3 @@
-a
 ability
 able
 about
@@ -566,7 +565,6 @@ note
 nothing
 notice
 now
-n't
 number
 occur
 of
@@ -761,8 +759,6 @@ service
 set
 seven
 several
-sex
-sexual
 shake
 share
 she
