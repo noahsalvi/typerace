@@ -1,1 +1,40 @@
-<p>scoreboard works!</p>
+<main>
+  <h2 class="title">Scoreboard</h2>
+
+  <div class="scoreboard-container">
+    <div id="new-entry" (click)="focusOnInput()">
+      <div class="title pink">New Entry</div>
+      <div class="information-container">
+        <div class="name-container">
+          <label for="input-confirmation-name">Name</label>
+          <input
+            type="text"
+            id="input-confirmation-name"
+            name="username"
+            autofocus
+          />
+        </div>
+        <div class="wpm">
+          <span class="pink">{{ game.wpm | async }}</span
+          >wpm
+        </div>
+      </div>
+      <button class="confirm" (click)="confirmEntry()">Confirm</button>
+    </div>
+    <div id="scoreboard">
+      <div
+        *ngFor="let score of game.scores | async; let i = index"
+        class="score"
+      >
+        <div class="rank-name-container">
+          <div class="rank">{{ i + 1 }}.</div>
+          <div class="name">{{ score.name.substr(0, 11) }}</div>
+        </div>
+        <div class="wpm">
+          <span class="pink">{{ score.wpm }}</span
+          >wpm
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

@@ -33,6 +33,10 @@ const routes: Routes = [
         component: ScoreboardComponent
       }
     ]
+  },
+  {
+    path: "scoreboard",
+    redirectTo: "race/scoreboard"
   }
 ];
 @NgModule({

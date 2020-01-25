@@ -14,12 +14,17 @@ export class ResultComponent implements OnInit {
   correctWords;
   totalWords;
   percentage;
+
   constructor(private gameService: GameService, private router: Router) {
     this.game = gameService;
     gameService.stage.next("result");
   }
+
   @HostListener("document:keypress", ["$event"])
   keypress(event: KeyboardEvent) {
+    if (event.key == "Backspace")
+      document.getElementById("focusCatcherResult").focus();
+
     if (event.key == "r" && !this.cooldown) {
       let direction = localStorage.getItem("direction");
       if (direction == "horizontal") {
@@ -27,6 +32,8 @@ export class ResultComponent implements OnInit {
       } else {
         this.router.navigate(["race/vertical"], { skipLocationChange: true });
       }
+    } else if (event.key == "Enter" && !this.cooldown) {
+      this.router.navigate(["race/scoreboard"], { skipLocationChange: true });
     }
   }
 
@@ -36,7 +43,6 @@ export class ResultComponent implements OnInit {
     this.totalWords = this.game.totalWords.value;
     this.correctWords = this.totalWords - this.game.wrongWords.value;
     this.percentage = (100 / this.totalWords) * this.correctWords;
-    console.log(this.correctWords);
   }
 
   evaluate() {

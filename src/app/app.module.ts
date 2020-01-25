@@ -12,6 +12,9 @@ import { ResultComponent } from "./typerace/result/result.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MinuteSecondsPipe } from "./minuteSeconds.pipe";
 import { GameHorizontalComponent } from "./typerace/game-horizontal/game-horizontal.component";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { environment } from "src/environments/environment";
 
 @NgModule({
   declarations: [
@@ -24,7 +27,14 @@ import { GameHorizontalComponent } from "./typerace/game-horizontal/game-horizon
     MinuteSecondsPipe,
     GameHorizontalComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

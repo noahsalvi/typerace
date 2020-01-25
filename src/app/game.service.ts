@@ -1,8 +1,9 @@
 import { Injectable, Type } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { AngularFirestore } from "@angular/fire/firestore";
 
-export type stages = "game" | "result" | "scoreboard";
+export type stages = "game" | "result" | "scoreboard" | "confirmation";
 
 @Injectable({
   providedIn: "root"
@@ -14,19 +15,23 @@ export class GameService {
   totalWords: BehaviorSubject<number>;
   words: BehaviorSubject<string[]>;
   animationController: BehaviorSubject<string>;
+  scores: Observable<any[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private db: AngularFirestore) {
     this.animationController = new BehaviorSubject("");
     this.getWords();
     this.resetGame();
+    this.scores = db
+      .collection("scores", ref => ref.orderBy("wpm", "desc"))
+      .valueChanges();
   }
 
   getName() {
-    return sessionStorage.getItem("name");
+    return localStorage.getItem("name");
   }
 
   setName(name: string) {
-    sessionStorage.setItem("name", name);
+    localStorage.setItem("name", name);
   }
 
   getWords() {

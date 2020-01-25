@@ -1,0 +1,118 @@
+@import "src/variables.scss";
+
+main {
+  margin-top: 50px;
+  > .title {
+    text-align: center;
+    font-size: 55px;
+    font-family: "Lobster", serif;
+  }
+
+  .scoreboard-container {
+    position: relative;
+  }
+
+  #scoreboard {
+    max-height: 500px;
+    max-width: 750px;
+    height: calc(95vh - 425px);
+    width: 80%;
+    margin: 10px auto 0 auto;
+    overflow: auto;
+    transition: opacity 0.5s;
+
+    .score {
+      background: $entry;
+      margin-top: 10px;
+      padding: 10px 45px;
+      font-size: 25px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+
+      .rank-name-container {
+        display: flex;
+        align-content: center;
+
+        .rank {
+          margin-right: 45px;
+        }
+      }
+
+      &:hover {
+        background: rgb(83, 83, 83);
+      }
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+#new-entry {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 250px;
+  background: black;
+  z-index: 99;
+  padding: 20px 30px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25), -4px -4px 4px rgba(0, 0, 0, 0.25);
+
+  //default
+  transition: opacity 0.3s;
+  display: none;
+  opacity: 0;
+
+  .title {
+    font-size: 35px;
+  }
+
+  .information-container {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+
+    .name-container {
+      font-size: 25px;
+
+      #input-confirmation-name {
+        background: none;
+        display: block;
+        width: 250px;
+        border: none;
+        color: $gray;
+        font-size: 25px;
+        outline: none;
+      }
+    }
+
+    .wpm {
+      font-size: 40px;
+      transform: translateY(25px);
+    }
+  }
+
+  .confirm {
+    margin-top: 20px;
+    background: #424242;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: none;
+    font-size: 20px;
+    float: right;
+    transition: all 0.1s;
+
+    &:hover {
+      background: rgb(83, 83, 83);
+      cursor: pointer;
+    }
+  }
+}
+
+.pink {
+  color: $pink;
+}

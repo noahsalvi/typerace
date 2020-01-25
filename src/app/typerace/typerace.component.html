@@ -59,5 +59,20 @@
   </div>
 </footer>
 <footer *ngIf="(game.stage | async) == 'scoreboard'" class="scoreboard-footer">
-  scoreboard
+  <div class="press-r">
+    Press <span id="r-hint" class="pink">R</span> to restart
+  </div>
+</footer>
+<footer
+  *ngIf="(game.stage | async) == 'confirmation'"
+  class="confirmation-footer"
+>
+  <div class="footer-content">
+    <div class="press-esc">
+      Press <span id="esc-confirmation" class="pink">Esc</span> to abort
+    </div>
+    <div class="press-enter">
+      Press <span id="enter-confirmation" class="pink">Enter</span> to confirm
+    </div>
+  </div>
 </footer>

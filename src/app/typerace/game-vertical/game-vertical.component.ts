@@ -103,7 +103,7 @@ export class GameVerticalComponent implements OnInit, OnDestroy {
       if (!this.isFinished) this.updateChars();
       this.startCountdown();
     } else if (event.key == "Enter") {
-      this.gameService.animationController.next("enter");
+      this.gameService.animationController.next("game-enter");
 
       clearInterval(this.countdown);
       document.getElementById("counter").classList.remove("blinking");

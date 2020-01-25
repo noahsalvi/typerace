@@ -104,7 +104,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
       this.startCountdown();
     } else if (event.key == "Enter") {
       this.resetGame();
-      this.gameService.animationController.next("enter");
+      this.gameService.animationController.next("game-enter");
     }
   }
 
@@ -146,7 +146,7 @@ export class GameHorizontalComponent implements OnInit, OnDestroy {
     clearInterval(this.countdown);
 
     document.getElementById("counter").classList.remove("blinking");
-    this.counter = 60;
+    this.counter = 5;
     this.userInput = "";
     this.mistakes = undefined;
     this.countdown = undefined;

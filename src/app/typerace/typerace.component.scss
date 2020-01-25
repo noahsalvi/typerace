@@ -37,7 +37,8 @@ footer {
 }
 
 .game-footer,
- .scoreboard-footer {
+.scoreboard-footer,
+.confirmation-footer {
   font-size: 30px;
   height: 96px;
 }
@@ -137,6 +138,40 @@ footer {
           margin-top: 20px;
         }
       }
+    }
+  }
+}
+
+.scoreboard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // animation: appear-up 0.5s ease;
+}
+
+.confirmation-footer {
+  animation: appear-up 0.5s ease;
+  @keyframes appear-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(1);
+    }
+  }
+
+  .footer-content {
+    padding: 0 50px;
+    height: 100%;
+    margin: auto;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > * {
+      transition: all 0.2s;
     }
   }
 }
