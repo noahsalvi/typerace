@@ -9,10 +9,11 @@ import { isDefined } from "@angular/compiler/src/util";
   styleUrls: ["./landing.component.scss"]
 })
 export class LandingComponent implements OnInit {
-  playerName = "";
+  playerName;
   constructor(private gameService: GameService, private router: Router) {}
 
   ngOnInit() {
+    this.playerName = this.gameService.getName();
     let direction: string = localStorage.getItem("direction");
 
     if (direction == "vertical") {
@@ -61,6 +62,21 @@ export class LandingComponent implements OnInit {
 
       switchCircle.style.left = "0";
       arrows.style.transform = "rotate(0)";
+    }
+  }
+
+  toggleActive(bool: boolean) {
+    let navigation = document.getElementById("navigation");
+    let footer = document.getElementsByTagName("footer").item(0);
+    let triangle = document.getElementById("triangle-down");
+    if (bool) {
+      navigation.className = "active";
+      footer.style.display = "none";
+      triangle.style.opacity = "0";
+    } else {
+      navigation.className = "";
+      footer.style.display = "";
+      triangle.style.opacity = "";
     }
   }
 }
