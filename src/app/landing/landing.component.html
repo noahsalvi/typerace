@@ -2,6 +2,7 @@
   <div id="navigation">
     <div class="menu">Menu</div>
     <ul>
+      <li (click)="toggleActive(false)" class="current">Home</li>
       <li [routerLink]="['race/scoreboard']" skipLocationChange>Scoreboard</li>
       <li [routerLink]="['']" skipLocationChange>About&nbsp;Me</li>
     </ul>
@@ -44,14 +45,13 @@
         </defs>
       </svg>
     </header>
-    <div class="input-container">
+    <form (submit)="submitName()" class="input-container">
       <input
         type="text"
         name="username"
         id="input-name"
         placeholder="Name"
         [(ngModel)]="playerName"
-        (keyup.enter)="submitName()"
         required
         autofocus
         tabindex="1"
@@ -78,7 +78,7 @@
           fill="#FF9191"
         />
       </svg>
-    </div>
+    </form>
     <p class="instruction">
       Write your name and press enter to test your typing speed!
       <span class="time-icon">

@@ -39,4 +39,18 @@ export class TyperaceComponent implements OnInit {
       }
     });
   }
+
+  toggleActive(bool: boolean) {
+    let navigation = document.getElementById("navigation");
+    let hamburger = document.getElementById("hamburger");
+    if (bool) {
+      navigation.className = "active";
+      hamburger.style.display = "none";
+      hamburger.style.opacity = "0";
+    } else {
+      navigation.className = "";
+      hamburger.style.display = "";
+      setTimeout(() => (hamburger.style.opacity = "1"), 100);
+    }
+  }
 }

@@ -4,60 +4,8 @@ main {
   text-align: center;
   display: flex;
 
-  #hamburger {
-    position: absolute;
-    top: 50px;
-    left: 50px;
-    cursor: pointer;
-  }
-
-  #navigation {
-    background: rgb(29, 29, 29);
-    width: 0px;
-    padding-top: 90px;
-    transition: all 0.25s;
-
-    & > * {
-      display: none;
-    }
-    .menu {
-      user-select: none;
-      font-family: "Lobster", serif;
-      font-size: 45px;
-    }
-
-    ul {
-      margin-top: 20px;
-      li {
-        outline: none;
-        user-select: none;
-        font-size: 20px;
-        background: rgb(29, 29, 29);
-        list-style: none;
-        padding: 10px;
-        cursor: pointer;
-        &:hover {
-          background: rgb(44, 44, 44);
-        }
-      }
-    }
-
-    &.active {
-      display: block;
-      width: 500px;
-
-      & ~ #hamburger {
-        display: none;
-      }
-
-      & > * {
-        display: block;
-      }
-    }
-  }
-
   .content-container {
-    width: 100vw;
+    width: 100%;
   }
 
   header {
@@ -67,8 +15,9 @@ main {
 
     #logo {
       margin-top: 100px;
-      max-width: 95%;
-      transition: transform 0.2s;
+      max-width: 538px;
+      width: 95vw;
+      transition: all 0.25s;
       cursor: pointer;
       outline: none;
       &:hover {

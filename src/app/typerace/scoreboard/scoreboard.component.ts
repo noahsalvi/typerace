@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, OnDestroy } from "@angular/core";
 import { GameService } from "src/app/game.service";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
@@ -8,9 +8,10 @@ import { Router } from "@angular/router";
   templateUrl: "./scoreboard.component.html",
   styleUrls: ["./scoreboard.component.scss"]
 })
-export class ScoreboardComponent implements OnInit {
+export class ScoreboardComponent implements OnInit, OnDestroy {
   confirmationNeeded = false;
   game;
+  keyCooldown;
 
   constructor(
     private gameService: GameService,
@@ -23,29 +24,49 @@ export class ScoreboardComponent implements OnInit {
       gameService.stage.next("confirmation");
     } else gameService.stage.next("scoreboard");
   }
-  @HostListener("document:keydown", ["$event"])
+  @HostListener("document:keypress", ["$event"])
   keypress(event: KeyboardEvent) {
-    if (event.key == "Backspace") this.focusOnInput();
-    else if (event.key == "Enter" && this.confirmationNeeded) {
-      this.confirmEntry();
-      this.gameService.animationController.next("confirmation-enter");
-    } else if (event.key == "Escape" && this.confirmationNeeded) {
+    if (this.keyCooldown) {
+      if (event.key == "Backspace") this.focusOnInput();
+      else if (event.key == "Enter" && this.confirmationNeeded) {
+        this.confirmEntry();
+        this.gameService.animationController.next("confirmation-enter");
+      } else if (event.key == "Escape" && this.confirmationNeeded) {
+        this.closeConfirmation();
+        this.gameService.animationController.next("confirmation-escape");
+      } else if (event.key == "r" && !this.confirmationNeeded) {
+        let direction = localStorage.getItem("direction");
+        if (direction == "horizontal") {
+          this.router.navigate(["race/horizontal"], {
+            skipLocationChange: true
+          });
+        } else {
+          this.router.navigate(["race/vertical"], { skipLocationChange: true });
+        }
+      }
+    }
+  }
+
+  @HostListener("document:keydown", ["$event"])
+  keydown(event: KeyboardEvent) {
+    if (event.key == "Escape" && this.confirmationNeeded) {
       this.closeConfirmation();
       this.gameService.animationController.next("confirmation-escape");
-    } else if (event.key == "r" && !this.confirmationNeeded) {
-      let direction = localStorage.getItem("direction");
-      if (direction == "horizontal") {
-        this.router.navigate(["race/horizontal"], { skipLocationChange: true });
-      } else {
-        this.router.navigate(["race/vertical"], { skipLocationChange: true });
-      }
     }
   }
 
   ngOnInit() {
     if (this.confirmationNeeded) this.setupConfirmation();
-
+    setTimeout(() => (this.keyCooldown = true), 0);
     this.setupEntry();
+
+    let navScoreboard = document.getElementById("nav-scoreboard");
+    navScoreboard.className = "current";
+  }
+
+  ngOnDestroy() {
+    let navScoreboard = document.getElementById("nav-scoreboard");
+    navScoreboard.className = "";
   }
 
   confirmEntry() {

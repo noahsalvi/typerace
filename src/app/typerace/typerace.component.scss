@@ -1,4 +1,13 @@
 @import "src/variables.scss";
+main {
+  height: 100vh;
+  text-align: center;
+  display: flex;
+}
+
+.content-container {
+  width: 100%;
+}
 
 header {
   display: flex;
@@ -8,7 +17,7 @@ header {
   #logo {
     margin-top: 100px;
     max-width: 95%;
-    transition: transform 0.2s;
+    transition: transform 0.25s;
     cursor: pointer;
     outline: none;
     &:hover {
