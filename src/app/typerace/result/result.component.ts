@@ -20,11 +20,14 @@ export class ResultComponent implements OnInit {
     gameService.stage.next("result");
   }
 
+  @HostListener("document:keydown", ["$event"])
+  keydown(event: KeyboardEvent) {
+    if (event.key == "Backspace")
+      document.getElementById("focusCatcher").focus();
+  }
+
   @HostListener("document:keypress", ["$event"])
   keypress(event: KeyboardEvent) {
-    if (event.key == "Backspace")
-      document.getElementById("focusCatcherResult").focus();
-
     if (event.key == "r" && !this.cooldown) {
       let direction = localStorage.getItem("direction");
       if (direction == "horizontal") {

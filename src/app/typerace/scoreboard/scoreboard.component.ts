@@ -53,6 +53,8 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
       this.closeConfirmation();
       this.gameService.animationController.next("confirmation-escape");
     }
+    if (event.key == "Backspace" && !this.confirmationNeeded)
+      document.getElementById("focusCatcher").focus();
   }
 
   ngOnInit() {
