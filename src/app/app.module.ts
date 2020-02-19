@@ -15,6 +15,7 @@ import { GameHorizontalComponent } from "./typerace/game-horizontal/game-horizon
 import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { environment } from "src/environments/environment";
+import { SideNavComponent } from './side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { environment } from "src/environments/environment";
     ScoreboardComponent,
     ResultComponent,
     MinuteSecondsPipe,
-    GameHorizontalComponent
+    GameHorizontalComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,

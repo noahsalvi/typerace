@@ -1,27 +1,5 @@
 <main>
-  <img
-    src="assets/hamburger.svg"
-    alt="hamburger"
-    id="hamburger"
-    (click)="toggleActive(true)"
-  />
-  <div id="navigation">
-    <div class="menu">Menu</div>
-    <ul (click)="toggleActive(false)">
-      <li id="nav-home" [routerLink]="['/']">Home</li>
-      <li
-        id="nav-scoreboard"
-        [routerLink]="['/race/scoreboard']"
-        skipLocationChange
-      >
-        Scoreboard
-      </li>
-      <li id="nav-about-me" [routerLink]="['']" skipLocationChange>
-        About&nbsp;Me
-      </li>
-    </ul>
-  </div>
-  <div class="content-container" (click)="toggleActive(false)">
+  <div class="content-container">
     <header>
       <svg
         id="logo"
@@ -66,11 +44,7 @@
     </div>
   </div>
 </footer>
-<footer
-  *ngIf="(game.stage | async) == 'result'"
-  class="result-footer"
-  (click)="toggleActive(false)"
->
+<footer *ngIf="(game.stage | async) == 'result'" class="result-footer">
   <div class="footer-content">
     <div class="helper-container">
       <div class="share-container">

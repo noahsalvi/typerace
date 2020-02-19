@@ -1,19 +1,5 @@
 <main>
-  <div id="navigation">
-    <div class="menu">Menu</div>
-    <ul>
-      <li (click)="toggleActive(false)" class="current">Home</li>
-      <li [routerLink]="['race/scoreboard']" skipLocationChange>Scoreboard</li>
-      <li [routerLink]="['']" skipLocationChange>About&nbsp;Me</li>
-    </ul>
-  </div>
-  <img
-    src="assets/hamburger.svg"
-    alt="hamburger"
-    id="hamburger"
-    (click)="toggleActive(true)"
-  />
-  <div class="content-container" (click)="toggleActive(false)">
+  <div class="content-container">
     <header>
       <svg
         id="logo"

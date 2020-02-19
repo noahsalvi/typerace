@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<div style="display: flex;">
+  <app-side-nav></app-side-nav>
+  <div style="width: 100%;" (click)="service.toggleActive(false)">
+    <router-outlet></router-outlet>
+  </div>
+</div>

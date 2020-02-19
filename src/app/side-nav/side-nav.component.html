@@ -1,0 +1,14 @@
+<img
+  src="assets/hamburger.svg"
+  alt="hamburger"
+  id="hamburger"
+  (click)="service.toggleActive(true)"
+/>
+<div id="navigation">
+  <div class="menu">Menu</div>
+  <ul (click)="service.toggleActive(false)">
+    <li [routerLink]="['/']">Home</li>
+    <li [routerLink]="['race/scoreboard']" skipLocationChange>Scoreboard</li>
+    <li [routerLink]="['']" skipLocationChange>About&nbsp;Me</li>
+  </ul>
+</div>

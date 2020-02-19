@@ -65,25 +65,4 @@ export class LandingComponent implements OnInit {
       arrows.style.transform = "rotate(0)";
     }
   }
-
-  toggleActive(bool: boolean) {
-    let navigation = document.getElementById("navigation");
-    let footer = document.getElementsByTagName("footer").item(0);
-    let triangle = document.getElementById("triangle-down");
-    let navigationChildren = document.getElementById("navigation").children;
-    let hamburger = document.getElementById("hamburger");
-    if (bool) {
-      navigation.className = "active";
-      footer.style.display = "none";
-      triangle.style.opacity = "0";
-      hamburger.style.display = "none";
-      hamburger.style.opacity = "0";
-    } else {
-      navigation.className = "";
-      footer.style.display = "";
-      triangle.style.opacity = "";
-      hamburger.style.display = "";
-      setTimeout(() => (hamburger.style.opacity = "1"), 100);
-    }
-  }
 }

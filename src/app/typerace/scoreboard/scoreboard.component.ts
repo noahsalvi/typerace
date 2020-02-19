@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
   templateUrl: "./scoreboard.component.html",
   styleUrls: ["./scoreboard.component.scss"]
 })
-export class ScoreboardComponent implements OnInit, OnDestroy {
+export class ScoreboardComponent implements OnInit {
   confirmationNeeded = false;
   game;
   keyCooldown;
@@ -61,14 +61,6 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
     if (this.confirmationNeeded) this.setupConfirmation();
     setTimeout(() => (this.keyCooldown = true), 0);
     this.setupEntry();
-
-    let navScoreboard = document.getElementById("nav-scoreboard");
-    navScoreboard.className = "current";
-  }
-
-  ngOnDestroy() {
-    let navScoreboard = document.getElementById("nav-scoreboard");
-    navScoreboard.className = "";
   }
 
   confirmEntry() {
