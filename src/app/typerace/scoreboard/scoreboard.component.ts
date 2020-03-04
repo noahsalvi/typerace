@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
   templateUrl: "./scoreboard.component.html",
   styleUrls: ["./scoreboard.component.scss"]
 })
-export class ScoreboardComponent implements OnInit {
+export class ScoreboardComponent implements OnInit, OnDestroy {
   confirmationNeeded = false;
   game;
   keyCooldown;
@@ -22,7 +22,9 @@ export class ScoreboardComponent implements OnInit {
     if (gameService.stage.value == "result") {
       this.confirmationNeeded = true;
       gameService.stage.next("confirmation");
-    } else gameService.stage.next("scoreboard");
+    } else {
+      gameService.stage.next("scoreboard");
+    }
   }
   @HostListener("document:keypress", ["$event"])
   keypress(event: KeyboardEvent) {
@@ -178,5 +180,10 @@ export class ScoreboardComponent implements OnInit {
   focusOnInput() {
     let input = document.getElementById("input-confirmation-name");
     input.focus();
+  }
+
+  //reset after navigating away
+  ngOnDestroy() {
+    this.gameService.stage.next("none");
   }
 }

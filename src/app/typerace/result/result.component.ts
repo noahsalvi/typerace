@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, OnDestroy } from "@angular/core";
 import { GameService } from "src/app/game.service";
 import { Router } from "@angular/router";
 
@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
   templateUrl: "./result.component.html",
   styleUrls: ["./result.component.scss"]
 })
-export class ResultComponent implements OnInit {
+export class ResultComponent implements OnInit, OnDestroy {
   cooldown = true;
   feedback: string;
   game;
@@ -57,5 +57,9 @@ export class ResultComponent implements OnInit {
     else if (wpm >= 60) this.feedback = "Pretty Okay";
     else if (wpm >= 44) this.feedback = "Above Average";
     else this.feedback = "Terrible";
+  }
+
+  ngOnDestroy() {
+    this.gameService.stage.next("none");
   }
 }

@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 
-export type stages = "game" | "result" | "scoreboard" | "confirmation";
+export type stages = "none" | "game" | "result" | "scoreboard" | "confirmation";
 
 @Injectable({
   providedIn: "root"
