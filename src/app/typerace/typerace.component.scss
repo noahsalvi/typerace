@@ -1,7 +1,7 @@
 @import "src/variables.scss";
 
 .content-wrapper {
-  height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
 }
 
