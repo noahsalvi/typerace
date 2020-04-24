@@ -48,11 +48,13 @@ footer {
 }
 
 .pos-helper {
-  position: relative;
+  position: absolute;
+  background: gray;
   width: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
   height: 96px;
-  bottom: 96px;
+  bottom: 0;
+  max-height: 96px;
 }
 
 .game-footer,
