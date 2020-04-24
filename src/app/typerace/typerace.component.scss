@@ -1,10 +1,13 @@
 @import "src/variables.scss";
+
+.content-wrapper {
+  overflow: hidden;
+}
+
 main {
   height: 100vh;
   text-align: center;
   display: flex;
-  overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 .content-container {
