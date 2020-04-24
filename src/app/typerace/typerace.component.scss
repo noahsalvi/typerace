@@ -3,6 +3,7 @@ main {
   height: 100vh;
   text-align: center;
   display: flex;
+  overflow-x: hidden;
 }
 
 .content-container {
@@ -49,6 +50,7 @@ footer {
 .game-footer,
 .scoreboard-footer,
 .confirmation-footer {
+  left: 0;
   font-size: 30px;
   height: 96px;
 }
@@ -96,6 +98,7 @@ footer {
   height: 300px;
   animation: switchToResult 0.6s ease-out;
   padding: 0 50px;
+  left: 0;
 
   @keyframes appear-up {
     from {
