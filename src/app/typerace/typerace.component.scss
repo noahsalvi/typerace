@@ -49,6 +49,10 @@ footer {
 
 .pos-helper {
   position: relative;
+  width: 100%;
+  overflow-y: hidden;
+  height: 96px;
+  bottom: 96px;
 }
 
 .game-footer,
@@ -60,13 +64,13 @@ footer {
 }
 
 .game-footer {
-  animation: appear-up 0.5s ease;
-  @keyframes appear-up {
+  animation: appear-up-rel 0.5s ease;
+  @keyframes appear-up-rel {
     from {
-      transform: translateY(100%);
+      bottom: -96px;
     }
     to {
-      transform: translateY(1);
+      bottom: 0;
     }
   }
 
