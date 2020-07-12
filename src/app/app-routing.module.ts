@@ -6,11 +6,12 @@ import { GameVerticalComponent } from "./typerace/game-vertical/game-vertical.co
 import { ResultComponent } from "./typerace/result/result.component";
 import { ScoreboardComponent } from "./typerace/scoreboard/scoreboard.component";
 import { GameHorizontalComponent } from "./typerace/game-horizontal/game-horizontal.component";
+import { AboutComponent } from "./about/about.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: LandingComponent
+    component: LandingComponent,
   },
   {
     path: "race",
@@ -18,29 +19,33 @@ const routes: Routes = [
     children: [
       {
         path: "vertical",
-        component: GameVerticalComponent
+        component: GameVerticalComponent,
       },
       {
         path: "horizontal",
-        component: GameHorizontalComponent
+        component: GameHorizontalComponent,
       },
       {
         path: "result",
-        component: ResultComponent
+        component: ResultComponent,
       },
       {
         path: "scoreboard",
-        component: ScoreboardComponent
-      }
-    ]
+        component: ScoreboardComponent,
+      },
+    ],
   },
   {
     path: "scoreboard",
-    redirectTo: "race/scoreboard"
-  }
+    redirectTo: "race/scoreboard",
+  },
+  {
+    path: "about",
+    component: AboutComponent,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

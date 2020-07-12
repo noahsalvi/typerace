@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 export type stages = "none" | "game" | "result" | "scoreboard" | "confirmation";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class GameService {
   stage: BehaviorSubject<stages>;
@@ -26,7 +26,7 @@ export class GameService {
     this.getWords();
     this.resetGame();
     this.scores = db
-      .collection("scores", ref => ref.orderBy("wpm", "desc"))
+      .collection("scores", (ref) => ref.orderBy("wpm", "desc"))
       .valueChanges();
   }
 
@@ -41,7 +41,7 @@ export class GameService {
   getWords() {
     this.http
       .get("assets/words.txt", { responseType: "text" })
-      .subscribe(data => {
+      .subscribe((data) => {
         this.words = new BehaviorSubject<string[]>(data.split(/\r?\n/));
       });
   }
@@ -74,6 +74,9 @@ export class GameService {
 
         case "scoreboard":
           children.item(1).className = "current";
+          break;
+        case "about":
+          children.item(2).className = "current";
           break;
       }
 

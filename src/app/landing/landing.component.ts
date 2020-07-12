@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { GameService } from "../game.service";
 import { Router } from "@angular/router";
 import { isDefined } from "@angular/compiler/src/util";
@@ -6,12 +6,17 @@ import { isDefined } from "@angular/compiler/src/util";
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
-  styleUrls: ["./landing.component.scss"]
+  styleUrls: ["./landing.component.scss"],
 })
 export class LandingComponent implements OnInit {
   playerName;
 
   constructor(private gameService: GameService, private router: Router) {}
+
+  @HostListener("document:keypress", ["$event"])
+  keypress(event) {
+    if (event.key == "Enter") this.submitName();
+  }
 
   ngOnInit() {
     this.playerName = this.gameService.getName();

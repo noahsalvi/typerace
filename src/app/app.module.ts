@@ -16,6 +16,7 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { environment } from "src/environments/environment";
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     ResultComponent,
     MinuteSecondsPipe,
     GameHorizontalComponent,
-    SideNavComponent
+    SideNavComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
